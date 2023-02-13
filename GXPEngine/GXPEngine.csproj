@@ -43,7 +43,11 @@
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
-    <Compile Include="LiftOff\ConfigParser.cs" />
+    <Compile Include="LiftOff\Characters\CharacterBase.cs" />
+    <Compile Include="LiftOff\Config\ConfigParser.cs" />
+    <Compile Include="LiftOff\Enums.cs" />
+    <Compile Include="LiftOff\Levels\Level.cs" />
+    <Compile Include="LiftOff\Levels\LevelCollider.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Core\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -85,5 +89,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LiftOff\Config\Config.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LiftOff\Managers\" />
   </ItemGroup>
 </Project>

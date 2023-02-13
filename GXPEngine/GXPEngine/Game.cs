@@ -18,6 +18,10 @@ namespace GXPEngine
 		private UpdateManager _updateManager;
 		private CollisionManager _collisionManager;
 
+		public List<CharacterBase> players = new List<CharacterBase>();
+
+		public Level currentLevel { get; protected set; }
+
 		/// <summary>
 		/// Step delegate defines the signature of a method used for step callbacks, see OnBeforeStep, OnAfterStep.
 		/// </summary>

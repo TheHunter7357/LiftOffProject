@@ -3,10 +3,26 @@ using GXPEngine;                                // GXPEngine contains the engine
 using System.Drawing;                           // System.Drawing contains drawing tools such as Color definitions
 
 public class MyGame : Game {
-	public MyGame() : base(800, 600, false)     // Create a window that's 800x600 and NOT fullscreen
-	{
 
-	}
+    #region properties
+
+    #endregion
+
+    public MyGame() : base(1920, 1080, true)     // Create a window that's 800x600 and NOT fullscreen
+	{
+		CharacterBase cha = new CharacterBase("checkers.png", 1, 1, Enums.players.player1);
+		players.Add(cha);
+		AddChild(cha);
+        CharacterBase cha2 = new CharacterBase("checkers.png", 1, 1, Enums.players.player2);
+		cha2.SetXY(100, 0);
+		players.Add(cha2);
+        AddChild(cha2);
+
+		Level level = new Level("transparant.png");
+
+        AddChild(level);
+		currentLevel = level;
+    }
 
 	// For every game object, Update is called every frame, by the engine:
 	void Update() {
