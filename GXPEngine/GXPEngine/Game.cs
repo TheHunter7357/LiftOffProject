@@ -19,7 +19,9 @@ namespace GXPEngine
 		private CollisionManager _collisionManager;
 
 		public List<CharacterBase> players = new List<CharacterBase>();
-
+		
+		public Config config { get; protected set; }
+		
 		public Level currentLevel { get; protected set; }
 
 		/// <summary>

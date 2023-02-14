@@ -4,24 +4,25 @@ using System.Drawing;                           // System.Drawing contains drawi
 
 public class MyGame : Game {
 
-    #region properties
+	#region properties
 
     #endregion
 
-    public MyGame() : base(1920, 1080, true)     // Create a window that's 800x600 and NOT fullscreen
+    public MyGame() : base(1366, 768, false, true, 800, 600)     // Create a window that's 800x600 and NOT fullscreen
 	{
-		CharacterBase cha = new CharacterBase("checkers.png", 1, 1, Enums.players.player1);
+        Level level = new Level("transparant.png");
+        AddChild(level);
+        currentLevel = level;
+        //config = ConfigParser.ReadConfig("Config.xml");
+        CharacterBase cha = new CharacterBase("Test_a.png", 3, 1, Enums.players.player1);
 		players.Add(cha);
 		AddChild(cha);
-        CharacterBase cha2 = new CharacterBase("checkers.png", 1, 1, Enums.players.player2);
+        CharacterBase cha2 = new CharacterBase("Test_a.png", 3, 1, Enums.players.player2);
 		cha2.SetXY(100, 0);
 		players.Add(cha2);
         AddChild(cha2);
 
-		Level level = new Level("transparant.png");
 
-        AddChild(level);
-		currentLevel = level;
     }
 
 	// For every game object, Update is called every frame, by the engine:

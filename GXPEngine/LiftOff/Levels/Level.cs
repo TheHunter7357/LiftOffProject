@@ -1,5 +1,5 @@
 ﻿using GXPEngine.Core;
-using GXPEngine.LiftOff.Levels;
+using GXPEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +18,11 @@ namespace GXPEngine
 
         public Level(string filename) : base(filename, addCollider:false)
         {
+
             LevelCollider collider = new LevelCollider("colors.png");
-            SetXY(0, game.height / 2);
-            scaleX = game.width / 2;
+            collider.SetXY(0, game.height - 100);
+            collider.scaleX = game.width / 2;
+            collider.Mirror(false, true);
             levelColliders.Add(collider);
             AddChild(collider);
         }

@@ -43,7 +43,10 @@
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
+    <Compile Include="LiftOff\Characters\AttackCollider.cs" />
     <Compile Include="LiftOff\Characters\CharacterBase.cs" />
+    <Compile Include="LiftOff\Characters\CharacterHitBox.cs" />
+    <Compile Include="LiftOff\Characters\GroundedCollider.cs" />
     <Compile Include="LiftOff\Config\ConfigParser.cs" />
     <Compile Include="LiftOff\Enums.cs" />
     <Compile Include="LiftOff\Levels\Level.cs" />

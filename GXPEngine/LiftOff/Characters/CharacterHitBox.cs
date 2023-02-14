@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace GXPEngine
 {
-    public class LevelCollider : Sprite
+    public class CharacterHitBox
     {
-        public LevelCollider(string filename) : base(filename)
-        {
-        }
+
     }
 }
