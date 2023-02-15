@@ -17,6 +17,7 @@ namespace GXPEngine
 
 		private UpdateManager _updateManager;
 		private CollisionManager _collisionManager;
+		public PhysicsManager _physicsManager { get; private set; }
 
 		public List<CharacterBase> players = new List<CharacterBase>();
 		
@@ -118,6 +119,7 @@ namespace GXPEngine
 				main = this;
 				_updateManager = new UpdateManager ();
 				_collisionManager = new CollisionManager ();
+				_physicsManager = new PhysicsManager();
 				_glContext = new GLContext (this);
 				_glContext.CreateWindow (pWidth, pHeight, pFullScreen, pVSync, pRealWidth, pRealHeight);
 
@@ -191,6 +193,7 @@ namespace GXPEngine
 				OnBeforeStep ();
 			_updateManager.Step ();
 			_collisionManager.Step ();
+			_physicsManager.Step();
 			if (OnAfterStep != null)
 				OnAfterStep ();
 		}

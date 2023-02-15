@@ -51,6 +51,8 @@
     <Compile Include="LiftOff\Enums.cs" />
     <Compile Include="LiftOff\Levels\Level.cs" />
     <Compile Include="LiftOff\Levels\LevelCollider.cs" />
+    <Compile Include="LiftOff\Managers\PhysicsManager.cs" />
+    <Compile Include="LiftOff\Physics\RigidBody.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Core\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -96,7 +98,5 @@
   <ItemGroup>
     <Content Include="LiftOff\Config\Config.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LiftOff\Managers\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

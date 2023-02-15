@@ -23,7 +23,7 @@ namespace GXPEngine
         {
             if (collider is LevelCollider)
             {
-                owner.GroundCollision(collider);
+              
             }
         }
 

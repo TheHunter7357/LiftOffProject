@@ -8,9 +8,9 @@ public class MyGame : Game {
 
     #endregion
 
-    public MyGame() : base(1366, 768, false, true, 800, 600)     // Create a window that's 800x600 and NOT fullscreen
+    public MyGame() : base(1366, 768, false)     // Create a window that's 800x600 and NOT fullscreen
 	{
-        Level level = new Level("transparant.png");
+        Level level = new Level("Background1.png");
         AddChild(level);
         currentLevel = level;
         //config = ConfigParser.ReadConfig("Config.xml");
@@ -18,7 +18,7 @@ public class MyGame : Game {
 		players.Add(cha);
 		AddChild(cha);
         CharacterBase cha2 = new CharacterBase("Test_a.png", 3, 1, Enums.players.player2);
-		cha2.SetXY(100, 0);
+		cha2.SetXY(1000, 0);
 		players.Add(cha2);
         AddChild(cha2);
 
