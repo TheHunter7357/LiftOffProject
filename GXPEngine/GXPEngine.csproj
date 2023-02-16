@@ -38,11 +38,13 @@
   <ItemGroup>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
+    <Compile Include="LiftOff\ArduinoInput.cs" />
     <Compile Include="LiftOff\Characters\AttackCollider.cs" />
     <Compile Include="LiftOff\Characters\CharacterBase.cs" />
     <Compile Include="LiftOff\Characters\CharacterHitBox.cs" />

@@ -19,6 +19,8 @@ namespace GXPEngine
 		private CollisionManager _collisionManager;
 		public PhysicsManager _physicsManager { get; private set; }
 
+		ArduinoInput arduinoInput;
+
 		public List<CharacterBase> players = new List<CharacterBase>();
 		
 		public Config config { get; protected set; }
@@ -120,6 +122,7 @@ namespace GXPEngine
 				_updateManager = new UpdateManager ();
 				_collisionManager = new CollisionManager ();
 				_physicsManager = new PhysicsManager();
+				arduinoInput = new ArduinoInput();
 				_glContext = new GLContext (this);
 				_glContext.CreateWindow (pWidth, pHeight, pFullScreen, pVSync, pRealWidth, pRealHeight);
 

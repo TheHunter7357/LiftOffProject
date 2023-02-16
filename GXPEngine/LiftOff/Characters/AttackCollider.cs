@@ -14,16 +14,19 @@ namespace GXPEngine
         float y;
         float width;
         float height;
-        public AttackCollider(float normalx, float flippedx, float y, float width, float height, Enums.players player) : base("square.png")
+        bool blockable;
+
+        public AttackCollider(float normalx, float flippedx, float y, float width, float height, Enums.players player, bool blockable) : base("square.png")
         {
             SetOrigin(player == Enums.players.player1 ? 0 : width, y - height / 2);
-            SetXY(normalx, y - height / 2);
+            SetXY(normalx, y);
             SetScaleXY(width, height);
             this.normalx = normalx;
             this.flippedx = flippedx;
             this.y = y; 
             this.width = width; 
             this.height = height;
+            this.blockable = blockable;
         }
 
         public void CheckHit(CharacterBase owner, float damage)
@@ -32,9 +35,12 @@ namespace GXPEngine
             {
                 if (cha != owner)
                 {
+                    if (blockable && cha.isBlocking)
+                        return;
                     if (HitTest(cha))
                     {
-                        cha.TakeDamage(damage);
+                        
+                        cha.TakeHit(damage, parent.x > cha.x);
                     }
                 }
             }
@@ -45,13 +51,13 @@ namespace GXPEngine
             if (flip)
             {
                 SetOrigin(0, y - height / 2);
-                SetXY(normalx, y - height / 2);
+                SetXY(normalx, y);
 
             }
             else
             {
                 SetOrigin(width, y - height / 2);
-                SetXY(flippedx, y - height / 2);
+                SetXY(flippedx, y);
             }
         }
     }

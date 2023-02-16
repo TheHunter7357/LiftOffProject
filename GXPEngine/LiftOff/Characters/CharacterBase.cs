@@ -17,14 +17,18 @@ namespace GXPEngine
 
         Enums.players player;
         int speed = 3;
-        int jumpForce = 30;
+        int jumpForce = 50;
         float health = 100;
 
-        float gravity = 0.7f;
-        public bool Grounded;
+        float gravity = 2;
+
+        public bool Grounded { get; private set; }
+        public bool isBlocking { get; private set; }
 
         float airFriction = .03f;
         float groundFriction = 0.2f;
+
+        bool isStunned = false;
 
         bool jumpedThisFrame;
 
@@ -36,6 +40,9 @@ namespace GXPEngine
         private float yVelocity = 0f;
 
         AttackCollider lightAttackCol;
+        AttackCollider lightDownAttackCol;
+
+        List<AttackCollider> attackColliders = new List<AttackCollider>();
 
         Pivot groundCheck;
 
@@ -51,15 +58,20 @@ namespace GXPEngine
 
             this.player = player;
 
-            lightAttackCol = new AttackCollider(width , x - 32, height / 2, 0.5f, 0.5f, player);
+            lightAttackCol = new AttackCollider(width , x - 32, height / 2, 0.5f, 0.5f, player, true);
             AddChild(lightAttackCol);
+            attackColliders.Add(lightAttackCol);
+
+            lightDownAttackCol = new AttackCollider(width, x - 32, height + 200, 0.5f, 0.5f, player, false);
+            AddChild(lightDownAttackCol);
+            attackColliders.Add(lightDownAttackCol);
 
             GFX = new AnimationSprite(filename, cols, rows);
             AddChild(GFX);
             GFX.SetOrigin(GFX.width / 2, 0);
             GFX.SetXY(width / 2, y);
             GFX.SetFrame(0);
-            GFX.SetCycle(0, 1, 5);
+            GFX.SetCycle(0, 5, 10);
 
             GFX.Mirror(player != Enums.players.player1, false);
         }
@@ -94,13 +106,19 @@ namespace GXPEngine
                 {
                     if(cha.x > x)
                     {
-                        GFX.Mirror(false, false);
-                        lightAttackCol.Flip(true);
+                        GFX.Mirror(true, false);
+                        foreach(AttackCollider col in attackColliders)
+                        {
+                            col.Flip(true);
+                        }                    
                     }
                     else
                     {
-                        GFX.Mirror(true, false);
-                        lightAttackCol.Flip(false);
+                        GFX.Mirror(false, false);
+                        foreach (AttackCollider col in attackColliders)
+                        {
+                            col.Flip(false);
+                        }
                     }
                 }
             }
@@ -108,15 +126,16 @@ namespace GXPEngine
 
         void Move()
         {
-            if (Input.GetKey(player == Enums.players.player1 ? Key.A : Key.LEFT) && !isAttacking)
+            if (Input.GetKey(player == Enums.players.player1 ? Key.A : Key.LEFT) && !isAttacking && !isStunned)
             {
+                
                 xVelocity = -1;
             }
-            if (Input.GetKey(player == Enums.players.player1 ? Key.D : Key.RIGHT) && !isAttacking)
+            if (Input.GetKey(player == Enums.players.player1 ? Key.D : Key.RIGHT) && !isAttacking && !isStunned)
             {
                 xVelocity = 1;
             }
-            if (Input.GetKey(player == Enums.players.player1 ? Key.W : Key.UP) && Grounded && !isAttacking)
+            if (Input.GetKey(player == Enums.players.player1 ? Key.W : Key.UP) && Grounded && !isAttacking && !isStunned)
             {
                 jumpedThisFrame = true;
                 yVelocity = -jumpForce;
@@ -141,7 +160,7 @@ namespace GXPEngine
 
         bool CheckGrounded()
         {
-            if (y >= groundLevel && !jumpedThisFrame) 
+            if ( y >= groundLevel && !jumpedThisFrame) 
             {
                 y = groundLevel;
                 yVelocity= 0;
@@ -153,39 +172,96 @@ namespace GXPEngine
 
         void AttackInputs()
         {
+            if (isStunned)
+                return;
             if (Input.GetKeyDown(player == Enums.players.player1 ? Key.G : Key.M))
             {
-                _ = Attack();
+                _ = LightAttack();
+            }
+            if (Input.GetKey(player == Enums.players.player1 ? Key.LEFT_SHIFT : Key.NUMPAD_INSERT))
+            {
+
             }
         }
 
+        void Block()
+        {
+            //TODO: 
+        }
 
 
-        //TODO: light down attack, block, heavy attack, special attack
+        //TODO: block, heavy attack, special attack
 
-        async Task Attack()
+        async Task LightAttack()
         {
             if (isAttacking)
                 return;
+            if (Input.GetKey(player == Enums.players.player1 ? Key.S : Key.DOWN))
+            {
+                LightDownAttack();
+            }
+            else
+            {
+                LightNormalAttack();
+            }
+
+        }
+
+        async Task LightNormalAttack()
+        {
             isAttacking = true;
-            GFX.SetCycle(0, 3, 10);
+            GFX.SetCycle(13, 4, 10);
             await Task.Delay(333);
+            if (isStunned)
+            {
+                return;
+            }
             lightAttackCol.CheckHit(this, 10);
-            await Task.Delay(166);
-            GFX.SetCycle(0, 1, 5);
+            await Task.Delay(333);
+            GFX.SetCycle(0, 5, 10);
             isAttacking = false;
         }
 
-        public void TakeDamage(float amount)
+        async Task LightDownAttack()
         {
+            Console.WriteLine("Down");
+            isAttacking = true;
+            GFX.SetCycle(5, 5, 10);
+            await Task.Delay(555);
+            lightAttackCol.CheckHit(this, 10);
+            await Task.Delay(300);
+            GFX.SetCycle(0, 5, 10);
+            isAttacking = false;
+        }
+
+        public async Task TakeHit(float amount, bool left)
+        {
+            //TODO: knockback after certain amount of hits
+
             health -= amount;
-            Console.WriteLine(health);
-            Console.WriteLine(player);
+
+            
             if (health <= 0)
             {
                 game.RemoveChild(this);
                 game.players.Remove(this);
+                return;
             }
+
+
+            isStunned = true;
+
+            xVelocity = left ? -10 : 10;
+
+            GFX.SetCycle(10, 3, 7);
+
+            isAttacking = false;
+
+            await Task.Delay(500);
+
+            GFX.SetCycle(0, 5, 10);
+
+            isStunned = false;
         }
 
         void OnCollision(GameObject collider)
