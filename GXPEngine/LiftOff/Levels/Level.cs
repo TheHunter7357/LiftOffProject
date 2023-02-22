@@ -12,34 +12,31 @@ namespace GXPEngine
     {
         #region properties
 
+        public int match = -1;
+
         public List<GameObject> levelColliders = new List<GameObject>();
 
         Random rand = new Random();
 
         float time;
 
+        int numOfFrames;
+
         #endregion
 
-        public Level(string filename, int cols, int rows) : base(filename, cols, rows, addCollider:false)
+        public Level(string filename, int cols, int rows, int numOfFrames) : base(filename, cols, rows, addCollider:false)
         {
-
-            LevelCollider collider = new LevelCollider("colors.png");
-            collider.SetXY(0, game.height - 100);
-            collider.scaleX = game.width / 2;
-            collider.Mirror(false, true);
-            levelColliders.Add(collider);
-            AddChild(collider);
             SetCycle(0, 1, 6);
-            
+            this.numOfFrames = numOfFrames;
         }
 
-        void Update()
+        public void Update()
         {
             AnimateFixed();
 
             if(time <= 0)
             {
-                SetCycle(0, 14, 6);
+                SetCycle(0, numOfFrames, 6);
                 time = rand.Next(2000, 10000);
             }
             else

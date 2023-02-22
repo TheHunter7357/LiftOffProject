@@ -15,17 +15,39 @@ namespace GXPEngine
 
 		private GLContext _glContext;
 
-		private UpdateManager _updateManager;
+        protected List<Level> levels = new List<Level>();
+
+        protected int currentLevelIndex;
+
+        public Level gameLevel { get; private set; }
+
+		protected CharSelect charSelect;
+
+        protected StartLevel startLevel;
+
+		protected EndScreen endScreen;
+
+        private UpdateManager _updateManager;
 		private CollisionManager _collisionManager;
 		public PhysicsManager _physicsManager { get; private set; }
 
 		ArduinoInput arduinoInput;
 
 		public List<CharacterBase> players = new List<CharacterBase>();
+
+		public CharacterBase player1 { get; private set; }
+		public CharacterBase player2 { get; private set; }
 		
 		public Config config { get; protected set; }
 		
 		public Level currentLevel { get; protected set; }
+
+		public SoundChannel backgroundMusic { get; protected set; }
+
+		public SoundChannel SFX;
+
+		public float musicVolume { get; protected set; }
+		public float SFXVolume { get; protected set; }
 
 		/// <summary>
 		/// Step delegate defines the signature of a method used for step callbacks, see OnBeforeStep, OnAfterStep.
@@ -100,6 +122,7 @@ namespace GXPEngine
 		/// </param>
 		public Game (int pWidth, int pHeight, bool pFullScreen, bool pVSync = true, int pRealWidth=-1, int pRealHeight=-1, bool pPixelArt=false) : base()
 		{
+			backgroundMusic = new Sound("BackGroundMusic.wav", true, false).Play();
 			if (pRealWidth <= 0) {
 				pRealWidth = pWidth;
 			}
@@ -134,26 +157,148 @@ namespace GXPEngine
 			}
 		}
 
-		//------------------------------------------------------------------------------------------------------------------------
-		//														SetViewPort()
-		//------------------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets the rendering output view port. All rendering will be done within the given rectangle.
-		/// The default setting is {0, 0, game.width, game.height}.
-		/// </summary>
-		/// <param name='x'>
-		/// The x coordinate.
-		/// </param>
-		/// <param name='y'>
-		/// The y coordinate.
-		/// </param>
-		/// <param name='width'>
-		/// The new width of the viewport.
-		/// </param>
-		/// <param name='height'>
-		/// The new height of the viewport.
-		/// </param>
-		public void SetViewport(int x, int y, int width, int height, bool setRenderRange=true) {
+        public void LoadNextLevel()
+        {
+            Level levelToLoad = levels[currentLevelIndex + 1];
+
+            AddChild(levelToLoad);
+            RemoveChild(currentLevel);
+            currentLevel = levelToLoad;
+            currentLevelIndex++;
+        }
+
+		public void LoadGameLevel(Enums.characters player1, Enums.characters player2)
+		{
+			CharacterBase cha1;
+			CharacterBase cha2;
+
+			Random rand = new Random ();
+			int selectedLevel = rand.Next(0, 3);
+
+			switch (selectedLevel)
+			{
+				case 0:
+					gameLevel = new Level("Background1_Anim.png", 4, 4, 14);
+					gameLevel.match = 0;
+					break;
+				case 1:
+					gameLevel = new Level("Background2_Anim.png", 6, 5, 26);
+                    gameLevel.match = 1;
+                    break;
+				default:
+                    gameLevel = new Level("Dungeon_Background.png", 3, 2, 5);
+                    gameLevel.match = 2;
+                    break;
+            }
+
+			levels.Add(gameLevel);
+
+            AddChild(gameLevel);
+            RemoveChild(currentLevel);
+            currentLevel = gameLevel;
+
+            switch (player1)
+            {
+                case Enums.characters.fireGirl:
+                    cha1 = new FireGirl(Enums.players.player1, false);
+                    break;
+                case Enums.characters.fatGuy:
+                    cha1 = new FatGuy(Enums.players.player1, false);
+                    break;
+                case Enums.characters.rootsGuy:
+                    cha1 = new RootsGuy(Enums.players.player1, false);
+                    break;
+                default:
+                    cha1 = new FireGirl(Enums.players.player1, false);
+                    break;
+            }
+
+            switch (player2)
+            {
+                case Enums.characters.fireGirl:
+                    cha2 = new FireGirl(Enums.players.player2, false);
+                    break;
+                case Enums.characters.fatGuy:
+                    cha2 = new FatGuy(Enums.players.player2, false);
+                    break;
+                case Enums.characters.rootsGuy:
+                    cha2 = new RootsGuy(Enums.players.player2, false);
+                    break;
+                default:
+                    cha2 = new FireGirl(Enums.players.player2, false);
+                    break;
+            }
+
+
+            cha2.SetXY(400, cha2.y);
+
+            this.player1 = cha1;
+
+            this.player2 = cha2;
+
+            players.Add(cha1);
+            players.Add(cha2);
+
+            gameLevel.AddChild(new HealthBarOverlay(Enums.players.player1));
+            gameLevel.AddChild(new HealthBarOverlay(Enums.players.player2));
+
+            gameLevel.AddChild(new HealthBar(Enums.players.player2));
+            gameLevel.AddChild(new HealthBar(Enums.players.player1));
+
+            gameLevel.AddChild(new ManaBar(Enums.players.player1));
+            gameLevel.AddChild(new ManaBar(Enums.players.player2));
+
+            gameLevel.AddChild(cha1);
+            gameLevel.AddChild(cha2);
+            currentLevelIndex++;
+
+            endScreen = new EndScreen();
+            levels.Add(endScreen);
+        }
+
+		public void LoadBeginLevel()
+		{
+            Level levelToLoad = levels[0];
+
+            AddChild(levelToLoad);
+            RemoveChild(currentLevel);
+            currentLevel = levelToLoad;
+            currentLevelIndex = 0;
+        }
+
+		public void ReloadLevel()
+		{
+            Level levelToLoad = levels[currentLevelIndex - 1];
+
+            AddChild(levelToLoad);
+            RemoveChild(currentLevel);
+            currentLevel = levelToLoad;
+			currentLevelIndex --;
+
+			player1.Reset();
+			player2.Reset();
+        }
+
+        //------------------------------------------------------------------------------------------------------------------------
+        //														SetViewPort()
+        //------------------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Sets the rendering output view port. All rendering will be done within the given rectangle.
+        /// The default setting is {0, 0, game.width, game.height}.
+        /// </summary>
+        /// <param name='x'>
+        /// The x coordinate.
+        /// </param>
+        /// <param name='y'>
+        /// The y coordinate.
+        /// </param>
+        /// <param name='width'>
+        /// The new width of the viewport.
+        /// </param>
+        /// <param name='height'>
+        /// The new height of the viewport.
+        /// </param>
+        public void SetViewport(int x, int y, int width, int height, bool setRenderRange=true) {
 			// Translate from GXPEngine coordinates (origin top left) to OpenGL coordinates (origin bottom left):
 			//Console.WriteLine ("Setting viewport to {0},{1},{2},{3}",x,y,width,height);
 			_glContext.SetScissor(x, game.height - height - y, width, height);

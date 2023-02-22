@@ -10,7 +10,15 @@ namespace GXPEngine
     {
         public enum players
         {
-            player1 = 1, player2 = 2,
+            player1 = 1,
+            player2 = 2
+        }
+
+        public enum characters
+        {
+            fireGirl,
+            fatGuy,
+            rootsGuy
         }
     }
 }

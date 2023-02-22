@@ -48,11 +48,23 @@
     <Compile Include="LiftOff\Characters\AttackCollider.cs" />
     <Compile Include="LiftOff\Characters\CharacterBase.cs" />
     <Compile Include="LiftOff\Characters\CharacterHitBox.cs" />
+    <Compile Include="LiftOff\Characters\FatGuy\AfterImage.cs" />
+    <Compile Include="LiftOff\Characters\FatGuy\FatGuy.cs" />
+    <Compile Include="LiftOff\Characters\FireGirl\FireGirl.cs" />
+    <Compile Include="LiftOff\Characters\FireGirl\Laser.cs" />
     <Compile Include="LiftOff\Characters\GroundedCollider.cs" />
+    <Compile Include="LiftOff\Characters\RootsGuy\Roots.cs" />
+    <Compile Include="LiftOff\Characters\RootsGuy\RootsGuy.cs" />
     <Compile Include="LiftOff\Config\ConfigParser.cs" />
     <Compile Include="LiftOff\Enums.cs" />
+    <Compile Include="LiftOff\Levels\CharSelect.cs" />
+    <Compile Include="LiftOff\Levels\EndScreen.cs" />
+    <Compile Include="LiftOff\Levels\GUI\HealthBar.cs" />
+    <Compile Include="LiftOff\Levels\GUI\HealthBarOverlay.cs" />
+    <Compile Include="LiftOff\Levels\GUI\ManaBar.cs" />
     <Compile Include="LiftOff\Levels\Level.cs" />
     <Compile Include="LiftOff\Levels\LevelCollider.cs" />
+    <Compile Include="LiftOff\Levels\StartLevel.cs" />
     <Compile Include="LiftOff\Managers\PhysicsManager.cs" />
     <Compile Include="LiftOff\Physics\RigidBody.cs" />
     <Compile Include="MyGame.cs" />
@@ -96,9 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="LiftOff\Config\Config.xml" />
   </ItemGroup>
   <ItemGroup />
 </Project>

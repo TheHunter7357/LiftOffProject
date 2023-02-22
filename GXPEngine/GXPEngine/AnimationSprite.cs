@@ -11,7 +11,7 @@ namespace GXPEngine
         protected float _frameWidth;
         protected float _frameHeight;
 
-        protected bool _doneAnimating;
+        public bool _doneAnimating { get; private set; }
 
         protected int _rows;
         protected int _cols;
