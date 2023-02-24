@@ -22,16 +22,22 @@ namespace GXPEngine
 
         int numOfFrames;
 
+        bool animate;
+
         #endregion
 
-        public Level(string filename, int cols, int rows, int numOfFrames) : base(filename, cols, rows, addCollider:false)
+        public Level(string filename, int cols, int rows, int numOfFrames, bool animate = true) : base(filename, cols, rows, addCollider:false)
         {
-            SetCycle(0, 1, 6);
             this.numOfFrames = numOfFrames;
+            this.animate = animate;
         }
 
         public void Update()
         {
+            if (!animate)
+            {
+                return;
+            }
             AnimateFixed();
 
             if(time <= 0)

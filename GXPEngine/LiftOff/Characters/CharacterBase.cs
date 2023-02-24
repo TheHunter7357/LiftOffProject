@@ -56,7 +56,7 @@ namespace GXPEngine
 
         internal AnimationSprite GFX;
 
-        public float ultCharge { get; private set; } = 100;
+        public float ultCharge { get; private set; } = 0;
 
         public float requiredUltCharge { get; private set; } = 100;
 
@@ -315,7 +315,7 @@ namespace GXPEngine
                 {
                     _ = LightAttack();
                 }
-                if (Input.GetKey(player == Enums.players.player1 ? Key.LEFT_SHIFT : Key.NUMPAD_INSERT) && !isAttacking && !isStunned && !isUlting)
+                if (Input.GetKey(player == Enums.players.player1 ? Key.Z : Key.N) && !isAttacking && !isStunned && !isUlting)
                 {
                     Block();
                 }

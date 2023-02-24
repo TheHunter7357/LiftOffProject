@@ -16,15 +16,15 @@ namespace GXPEngine
 
         bool changedButtons;
 
-        public EndScreen() : base("Win_Lose_screen.png", 2, 1, 1)
+        public EndScreen() : base("Win_Lose_screen.png", 2, 1, 1, false)
         {
             RematchButton = new EasyDraw(260, 97);
-            RematchButton.SetXY(width / 2 - 140, height / 2 - 50);
+            RematchButton.SetXY(width / 2 - 130, height / 2 - 10);
             RematchButton.Clear(255, 255, 255, alpha: 55);
             AddChild(RematchButton);
 
             BackButton = new EasyDraw(260, 97);
-            BackButton.SetXY(width / 2 - 140, height / 2 + 90);
+            BackButton.SetXY(width / 2 - 130, height / 2 + 130);
             BackButton.Clear(255, 255, 255, alpha: 100);
             AddChild(BackButton);
             selectedButton = RematchButton;
@@ -32,7 +32,7 @@ namespace GXPEngine
 
         void Update()
         {
-            if(game.player1.health > 0)
+            if(game.player1.health >= 0)
             {
                 currentFrame = 0;
             }
@@ -89,10 +89,6 @@ namespace GXPEngine
                     game.ReloadLevel();
                 }
             }
-
-
-            base.Update();
-            currentFrame = 0;
 
         }
     }

@@ -55,22 +55,22 @@ namespace GXPEngine
                     switch (player1)
                     {
                         case Enums.characters.fireGirl:
-                            player1 = Enums.characters.fatGuy;
+                            player1 = Enums.characters.rootsGuy;
                             p1Select.ClearTransparent();
                             p1Select.Rect(560, 207, 245, 345);
 
                             break;
 
                         case Enums.characters.fatGuy:
-                            player1 = Enums.characters.rootsGuy;
-                            p1Select.ClearTransparent();
-                            p1Select.Rect(900, 207, 245, 345);
-                            break;
-
-                        case Enums.characters.rootsGuy:
                             player1 = Enums.characters.fireGirl;
                             p1Select.ClearTransparent();
                             p1Select.Rect(217, 207, 245, 345);
+                            break;
+
+                        case Enums.characters.rootsGuy:
+                            player1 = Enums.characters.fatGuy;
+                            p1Select.ClearTransparent();
+                            p1Select.Rect(900, 207, 245, 345);
                             break;
                     }
                     player1Changed = true;
@@ -86,21 +86,21 @@ namespace GXPEngine
                     switch (player1)
                     {
                         case Enums.characters.fireGirl:
-                            player1 = Enums.characters.rootsGuy;
+                            player1 = Enums.characters.fatGuy;
                             p1Select.ClearTransparent();
                             p1Select.Rect(900, 207, 245, 345);
                             break;
 
                         case Enums.characters.fatGuy:
-                            player1 = Enums.characters.fireGirl;
+                            player1 = Enums.characters.rootsGuy;
                             p1Select.ClearTransparent();
-                            p1Select.Rect(217, 207, 245, 345);
+                            p1Select.Rect(560, 207, 245, 345);
                             break;
 
                         case Enums.characters.rootsGuy:
-                            player1 = Enums.characters.fatGuy;
+                            player1 = Enums.characters.fireGirl;
                             p1Select.ClearTransparent();
-                            p1Select.Rect(560, 207, 245, 345);
+                            p1Select.Rect(217, 207, 245, 345);
                             break;
                     }
                     player1Changed = true;
@@ -116,21 +116,21 @@ namespace GXPEngine
                     switch (player2)
                     {
                         case Enums.characters.fireGirl:
-                            player2 = Enums.characters.rootsGuy;
+                            player2 = Enums.characters.fatGuy;
                             p2Select.ClearTransparent();
                             p2Select.Rect(890, 197, 265, 365);
                             break;
 
                         case Enums.characters.fatGuy:
-                            player2 = Enums.characters.fireGirl;
+                            player2 = Enums.characters.rootsGuy;
                             p2Select.ClearTransparent();
-                            p2Select.Rect(207, 197, 265, 365);
+                            p2Select.Rect(550, 197, 265, 365);
                             break;
 
                         case Enums.characters.rootsGuy:
-                            player2 = Enums.characters.fatGuy;
+                            player2 = Enums.characters.fireGirl;
                             p2Select.ClearTransparent();
-                            p2Select.Rect(550, 197, 265, 365);
+                            p2Select.Rect(207, 197, 265, 365);
                             break;
                     }
                     player2Changed = true;
@@ -146,21 +146,21 @@ namespace GXPEngine
                     switch (player2)
                     {
                         case Enums.characters.fireGirl:
-                            player2 = Enums.characters.fatGuy;
+                            player2 = Enums.characters.rootsGuy;
                             p2Select.ClearTransparent();
                             p2Select.Rect(550, 197, 265, 365);
                             break;
 
                         case Enums.characters.fatGuy:
-                            player2 = Enums.characters.rootsGuy;
-                            p2Select.ClearTransparent();
-                            p2Select.Rect(890, 197, 265, 365);
-                            break;
-
-                        case Enums.characters.rootsGuy:
                             player2 = Enums.characters.fireGirl;
                             p2Select.ClearTransparent();
                             p2Select.Rect(207, 197, 265, 365);
+                            break;
+
+                        case Enums.characters.rootsGuy:
+                            player2 = Enums.characters.fatGuy;
+                            p2Select.ClearTransparent();
+                            p2Select.Rect(890, 197, 265, 365);
                             break;
                     }
 
@@ -169,21 +169,21 @@ namespace GXPEngine
 
             }
 
-            if (/*ArduinoInput.GetAxisHorizontal(Enums.players.player1) == 0 || */Input.GetKeyUp(Key.A) || Input.GetKeyUp(Key.D))
+            if (/*ArduinoInput.GetAxisHorizontal(Enums.players.player1) == 0 ||*/ Input.GetKeyUp(Key.A) || Input.GetKeyUp(Key.D))
             {
                 player1Changed = false;
             }
-            if (/*ArduinoInput.GetAxisHorizontal(Enums.players.player2) == 0 || */Input.GetKeyUp(Key.LEFT) || Input.GetKeyUp(Key.RIGHT))
+            if (/*ArduinoInput.GetAxisHorizontal(Enums.players.player2) == 0 ||*/ Input.GetKeyUp(Key.LEFT) || Input.GetKeyUp(Key.RIGHT))
             {
                 player2Changed = false;
             }
 
-            if (/*ArduinoInput.GetButtonDown("B1", Enums.players.player1)*/ Input.GetKeyDown(Key.LEFT_SHIFT))
+            if (/*ArduinoInput.GetButtonDown("B1", Enums.players.player1) ||*/ Input.GetKeyDown(Key.ENTER))
             {
                 player1Selected = !player1Selected;
             }
 
-            if (/*ArduinoInput.GetButtonDown("B1", Enums.players.player2)*/ Input.GetKeyDown(Key.RIGHT_SHIFT))
+            if (Input.GetKeyDown(Key.ENTER))
             {
                 player2Selected = !player2Selected;
             }

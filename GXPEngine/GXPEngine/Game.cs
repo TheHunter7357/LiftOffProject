@@ -145,7 +145,6 @@ namespace GXPEngine
 				_updateManager = new UpdateManager ();
 				_collisionManager = new CollisionManager ();
 				_physicsManager = new PhysicsManager();
-				arduinoInput = new ArduinoInput();
 				_glContext = new GLContext (this);
 				_glContext.CreateWindow (pWidth, pHeight, pFullScreen, pVSync, pRealWidth, pRealHeight);
 
@@ -230,7 +229,7 @@ namespace GXPEngine
             }
 
 
-            cha2.SetXY(400, cha2.y);
+            cha2.SetXY(1000, cha2.y);
 
             this.player1 = cha1;
 
